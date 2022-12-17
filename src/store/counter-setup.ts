@@ -2,37 +2,31 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export const useCounterSetupStore = defineStore("counterSetup", () => {
-  // state
   const count = ref<number>(0);
-  const lastChaned = ref<Date | undefined>(undefined);
+  const lastChanged = ref<Date | undefined>(undefined);
 
-  // getters
-  const squaredCount = computed(() => count.value * count.value);
-
-  // actions
-  const incrementBy = (amount: number) => {
-    count.value += amount;
-    lastChaned.value = new Date();
+  const incrementBy = (value: number) => {
+    count.value += value;
+    lastChanged.value = new Date();
   };
 
-  const incrementByOne = () => {
-    incrementBy(1);
-  };
-
-  const decrementBy = (amount: number) => {
-    count.value -= amount;
-    lastChaned.value = new Date();
-  };
-
-  const decrementByOne = () => {
-    decrementBy(1);
+  const decrementBy = (value: number) => {
+    count.value -= value;
+    lastChanged.value = new Date();
   };
 
   return {
+    // state
     count,
-    incrementByOne,
+    lastChanged,
+
+    // getters
+    squareCount: computed(() => count.value * count.value),
+
+    // actions
     incrementBy,
-    decrementByOne,
     decrementBy,
+    incrementByOne: () => incrementBy(1),
+    decrementByOne: () => decrementBy(1),
   };
 });
