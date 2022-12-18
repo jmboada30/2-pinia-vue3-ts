@@ -18,7 +18,7 @@ const useClients = () => {
 
   const { data, isLoading } = useQuery(
     ['clients?page=', currentPage], 
-    () => getClients(currentPage.value)
+    () => getClients(currentPage.value),
   );
 
   watch(data, (newClients) => {

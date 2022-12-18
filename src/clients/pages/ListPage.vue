@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import ClientListVue from '@/clients/components/ClientList.vue';
-import PaginationsNumbers from '../components/PaginationsNumbers.vue';
+import LoadingModal from '@/shared/components/LoadingModal.vue';
+import PaginationsNumbers from '@/clients/components/PaginationsNumbers.vue';
+
+import useClients from '@/clients/composables/useClients';
+
+const { isLoading } = useClients();
 
 </script>
 
@@ -11,6 +16,8 @@ import PaginationsNumbers from '../components/PaginationsNumbers.vue';
     <ClientListVue />
 
     <PaginationsNumbers />
+
+    <LoadingModal v-if="isLoading"/>
   </div>
 </template>
 

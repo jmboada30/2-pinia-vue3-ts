@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import useClients from '@/clients/composables/useClients';
 
-const { clients, isLoading } = useClients();
+const { clients } = useClients();
 </script>
 
 <template>
-  <h1 v-if="isLoading">Cargando...</h1>
-
-  <ul v-else>
+  <ul>
     <li v-for="client of clients" :key="client.id">
       <RouterLink
         :to="{
