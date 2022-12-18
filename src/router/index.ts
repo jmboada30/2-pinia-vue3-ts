@@ -30,6 +30,7 @@ const router = createRouter({
         },
         {
           path: "/clients/:id",
+          name: "client-id",
           component: () => import("@/clients/pages/ClientPage.vue"),
         },
       ],
