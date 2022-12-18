@@ -7,7 +7,7 @@ import { useClientsStore } from '@/store/clients';
 import type { Client } from '@/clients/interfaces/clients';
 
 const getClients = async (page: number) => {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const { data } = await clientsApi.get<Client[]>(`/clients?_page=${page}`);
   return data;
 };
@@ -30,11 +30,6 @@ const useClients = () => {
     currentPage,
     isLoading,
     totalPages,
-
-    // Getters
-    totalPagesNumbers: computed(() =>
-      [...Array(totalPages.value)].map((_, i) => i + 1)
-    ),
 
     // Actions
     setPage(newPage: number) {

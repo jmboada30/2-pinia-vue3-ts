@@ -1,25 +1,48 @@
 <script setup lang="ts">
-import useClients from '../composables/useClients';
+import { computed } from 'vue';
 
-const { totalPagesNumbers, currentPage, totalPages, setPage } = useClients();
+interface Props {
+  currentPage: number;
+  totalPages: number;
+}
+
+interface Emits {
+  (e: 'set-page', page: number): void;
+}
+
+const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
+
+
+const totalPagesNumbers = computed(() =>
+  [...Array(props.totalPages)].map((_, i) => i + 1)
+);
 </script>
 
 <template>
   <div>
-    <button :disabled="currentPage === 1" @click="setPage(--currentPage)">
+    <button
+      :disabled="currentPage === 1"
+      @click="emits('set-page', currentPage - 1)"
+    >
       Anterior
     </button>
 
     <button
       v-for="number of totalPagesNumbers"
       :key="number"
-      @click="setPage(number)"
+      @click="emits('set-page', number)"
       :class="{ active: currentPage === number }"
     >
       {{ number }}
     </button>
 
-    <button :disabled="currentPage === totalPages" @click="setPage(++currentPage)">Siguiente</button>
+    <button
+      :disabled="currentPage === totalPages"
+      @click="emits('set-page', currentPage + 1)"
+    >
+      Siguiente
+    </button>
   </div>
 </template>
 
