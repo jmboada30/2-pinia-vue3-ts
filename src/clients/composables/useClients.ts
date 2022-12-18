@@ -25,7 +25,9 @@ const useClients = () => {
 
   return {
     clients,
+    currentPage,
     isLoading,
+    totalPages,
   };
 };
 
