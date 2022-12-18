@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ClientListVue from '../components/ClientList.vue';
+import ClientListVue from '@/clients/components/ClientList.vue';
 
 </script>
 
