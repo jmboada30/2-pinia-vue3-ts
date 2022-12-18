@@ -7,14 +7,14 @@ const { clients, isLoading } = useClients();
 <template>
   <h1 v-if="isLoading">Cargando...</h1>
 
-  <ul>
+  <ul v-else>
     <li v-for="client of clients" :key="client.id">
       <RouterLink
         :to="{
           name: 'client-id',
           params: { id: client.id },
         }"
-        >{{ client.name }}
+        >{{ client.id + ' ' + client.name }}
       </RouterLink>
     </li>
   </ul>
