@@ -13,6 +13,7 @@ import IconPinia from "@/shared/components/icons/IconPinia.vue";
       <nav>
         <RouterLink to="/">Options</RouterLink>
         <RouterLink to="/counter-setup">Setup</RouterLink>
+        <RouterLink to="/clients">Clients</RouterLink>
       </nav>
     </div>
   </header>
@@ -38,7 +39,7 @@ nav {
   margin-top: 2rem;
 }
 
-nav a.router-link-exact-active {
+nav a.router-link-active {
   color: var(--color-text);
 }
 
