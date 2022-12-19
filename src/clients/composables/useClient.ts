@@ -13,9 +13,13 @@ const useClient = (id: number) => {
 
   const { data, isLoading } = useQuery(['client', id], () => getClient(id));
 
-  watch(data, () => {
-    if (data.value) client.value = data.value;
-  }, { immediate: true });
+  watch(
+    data,
+    () => {
+      if (data.value) client.value = { ...data.value };
+    },
+    { immediate: true }
+  );
 
   return {
     client,
