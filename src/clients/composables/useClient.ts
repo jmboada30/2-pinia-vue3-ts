@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue';
-import { useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery } from '@tanstack/vue-query';
 import clientsApi from '@/api/clients-api';
 import type { Client } from '../interfaces/clients';
 
@@ -8,11 +8,23 @@ const getClient = async (id: number) => {
   return data;
 };
 
+const updateClient = async (client: Client) => {
+  const { data } = await clientsApi.patch(`/clients/${client.id}`, client);
+  return data;
+};
+
 const useClient = (id: number) => {
   const client = ref<Client>();
 
-  const { data, isLoading } = useQuery(['client', id], () => getClient(id));
+  const { data, isLoading, isError } = useQuery(
+    ['client', id],
+    () => getClient(id),
+    { retry: false }
+  );
 
+  const clientMutation = useMutation(updateClient);
+
+  // Update client when data changes
   watch(
     data,
     () => {
@@ -21,9 +33,21 @@ const useClient = (id: number) => {
     { immediate: true }
   );
 
+  // Reset mutation after 2 seconds
+  watch(
+    clientMutation.isSuccess,
+    () => {
+      if (clientMutation.isSuccess.value)
+        setTimeout(() => clientMutation.reset(), 2000);
+    },
+    { immediate: true }
+  );
+
   return {
     client,
-    isLoading,
+    clientMutation,
+    getIsError: isError,
+    getIsLoading: isLoading,
   };
 };
 

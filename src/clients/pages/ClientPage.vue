@@ -1,37 +1,26 @@
 <script setup lang="ts">
 import { watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useMutation } from '@tanstack/vue-query';
+import { useRoute, useRouter } from 'vue-router';
 
-import type { Client } from '@/clients/interfaces/clients';
 import useClient from '@/clients/composables/useClient';
 import LoadingModal from '@/shared/components/LoadingModal.vue';
-import clientsApi from '@/api/clients-api';
 
 const route = useRoute();
-const { client, isLoading } = useClient(+route.params.id);
-
-const updateClient = async (client: Client) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  const { data } = await clientsApi.patch(`/clients/${client.id}`, client);
-  return data;
-};
-
-const clientMutation = useMutation(updateClient);
-
-watch(
-  () => clientMutation.isSuccess.value,
-  (isSuccess) => {
-    if (isSuccess) setTimeout(() => clientMutation.reset(), 2000);
-  }
+const router = useRouter();
+const { client, clientMutation, getIsLoading, getIsError } = useClient(
+  +route.params.id
 );
+
+watch(getIsError, () => {
+  if (getIsError.value) router.replace({ name: 'clients' });
+});
 </script>
 
 <template>
   <h3 v-if="clientMutation.isLoading.value">Guardando...</h3>
   <h3 v-if="clientMutation.isSuccess.value">Guardado</h3>
 
-  <LoadingModal v-if="isLoading" />
+  <LoadingModal v-if="getIsLoading" />
 
   <div v-if="client">
     <h1>{{ client.name }}</h1>
