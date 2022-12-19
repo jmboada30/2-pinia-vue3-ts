@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useMutation } from '@tanstack/vue-query';
 
 import type { Client } from '@/clients/interfaces/clients';
 import useClient from '@/clients/composables/useClient';
 import LoadingModal from '@/shared/components/LoadingModal.vue';
 import clientsApi from '@/api/clients-api';
-import { useMutation } from '@tanstack/vue-query';
-import { watch } from 'vue';
 
 const route = useRoute();
 const { client, isLoading } = useClient(+route.params.id);
